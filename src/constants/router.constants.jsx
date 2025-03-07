@@ -1,40 +1,24 @@
 import { CiSettings, CiUser } from "react-icons/ci";
-import { GrMoney } from "react-icons/gr";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import DashboardHome from "../pages/Main/DashboardHome/DashboardHome";
 import Guests from "../pages/Main/Users/Users";
 import MyProfile from "../pages/Profile/MyProfile";
 import EditMyProfile from "../pages/Profile/EditMyProfile";
-import TermsConditions from "../pages/Settings/TermsConditions";
-import EditTermsConditions from "../pages/Settings/EditTermsConditions";
-import PrivacyPolicy from "../pages/Settings/PrivacyPolicy";
-import EditPrivacyPolicy from "../pages/Settings/EditPrivacyPolicy";
 
 import { FaUser } from "react-icons/fa";
-import {
-  MdOutlineSecurityUpdateWarning,
-} from "react-icons/md";
+
 import HostDetails from "../pages/Main/Host/HostDetails";
 import { FaServicestack } from "react-icons/fa6";
-import { BiMessageSquareDetail } from "react-icons/bi";
 
-import Earnings from "../pages/Main/Subscription/Subscription";
-import Driver from "../pages/Main/Driver/Driver";
-import DriverRequest from "../pages/Main/DriverRequest/DriverRequest";
 import Setting from "../pages/Main/Setting/Setting";
-import Support from "../pages/Main/Support/Support";
 import ChangePassword from "../pages/Main/Setting/Change-password/ChangePassword";
-import ForgotPassword from "../pages/Main/Setting/Change-password/ForgotPassword";
-import VerifyEmail from "../pages/Main/Setting/Change-password/VerifyEmail";
-import Trust from "../pages/Settings/Trust";
-import EditTrust from "../pages/Settings/EditTrust";
+
 import { TbCash } from "react-icons/tb";
-import { PiLaptopThin } from "react-icons/pi";
-import { GrUserManager } from "react-icons/gr";
-import { BiSupport } from "react-icons/bi";
+
 import { IoSettingsOutline } from "react-icons/io5";
 import Subscription from "../pages/Main/Subscription/Subscription";
 import AddSubscription from "../pages/Main/Subscription/AddSubscription";
+import Notifications from "../pages/Main/Notifications/Notifications";
 
 export const dashboardItems = [
   {
@@ -89,12 +73,10 @@ export const dashboardItems = [
     // icon: TbCash,
     element: <AddSubscription />,
   },
-  // {
-  //   name: "Driver",
-  //   path: "driver",
-  //   icon: GrUserManager,
-  //   element: <Driver />,
-  // },
+  {
+    path: "notifications",
+    element: <Notifications />,
+  },
   // {
   //   name: "Driver Request",
   //   path: "driver-request",
