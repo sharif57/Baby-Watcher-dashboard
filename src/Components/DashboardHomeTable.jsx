@@ -1,8 +1,33 @@
-import { Table } from "antd";
-import exlamIcon from "../assets/images/exclamation-circle.png";
+"use client"
+
+import { Modal, Table } from "antd"
+import exlamIcon from "../assets/images/exclamation-circle.png"
+import { useState } from "react"
 
 const DashboardHomeTable = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalData, setModalData] = useState({
+    name: "Victor",
+    email: "Basic",
+    mobile: "**** **** **** *426",
+    address: "Victor",
+    date: "10-15-2025",
+  })
 
+  const showModal = (data) => {
+    setIsModalOpen(true)
+    setModalData({
+      name: data.name,
+      email: data.Email,
+      mobile: "**** **** **** *426", // This would come from your data
+      address: "Victor", // This would come from your data
+      date: data.Date,
+    })
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
 
   const columns = [
     {
@@ -34,21 +59,22 @@ const DashboardHomeTable = () => {
     {
       title: "Action",
       key: "Review",
-      aligen: 'center',
+      align: "center", // Fixed typo from "aligen" to "align"
       render: (_, data) => (
-        <div className="  items-center justify-around textcenter flex">
+        <div className="items-center justify-around textcenter flex">
           {/* Review Icon */}
-          <img src={exlamIcon} alt="" className="btn  px-3 py-1 text-sm rounded-full" />
-          {/* <Link to={'/reviews'} className="btn bg-black text-white px-3 py-1 text-sm rounded-full">
-           
-            View
-          </Link> */}
+          <img
+            src={exlamIcon || "/placeholder.svg"}
+            alt=""
+            className="btn px-3 py-1 text-sm rounded-full cursor-pointer"
+            onClick={() => showModal(data)}
+          />
         </div>
       ),
     },
-  ];
+  ]
 
-  const data = [];
+  const data = []
   for (let index = 0; index < 6; index++) {
     data.push({
       TRID: `${index + 1}`,
@@ -58,21 +84,66 @@ const DashboardHomeTable = () => {
       Review: "See Review",
       Date: "16 Apr 2024",
       _id: index,
-    });
+    })
   }
 
   return (
     <div className="rounded-lg border py-4 bg-white mt-8 recent-users-table">
       <h3 className="text-2xl text-black mb-4 pl-2">Recent Transactions</h3>
       {/* Ant Design Table */}
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={{ position: ["bottomCenter"] }}
-        className="rounded-lg "
-      />
-    </div>
-  );  
-};
+      <Table columns={columns} dataSource={data} pagination={{ position: ["bottomCenter"] }} className="rounded-lg" />
 
-export default DashboardHomeTable;
+      {/* User Details Modal */}
+      <Modal
+        open={isModalOpen}
+        footer={null}
+        onCancel={handleCloseModal}
+        width={400}
+        centered
+        closable={false}
+        className="user-details-modal"
+      >
+        <div className="px-4 py-2">
+          <h2 className="text-center text-xl font-semibold mb-6">User Details</h2>
+
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">User Name :</span>
+              <span className="text-gray-800">{modalData.name}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Email :</span>
+              <span className="text-gray-800">{modalData.email}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Mobile Number :</span>
+              <span className="text-gray-800">{modalData.mobile}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Address :</span>
+              <span className="text-gray-800">{modalData.address}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Date :</span>
+              <span className="text-gray-800">{modalData.date}</span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleCloseModal}
+            className="w-full mt-8 bg-[#6366f1] text-white py-3 rounded-full hover:bg-[#5254cc] transition-colors"
+          >
+            Okay
+          </button>
+        </div>
+      </Modal>
+    </div>
+  )
+}
+
+export default DashboardHomeTable
+
