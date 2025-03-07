@@ -171,6 +171,12 @@
  
 }
 
+
+.ant-table-thead > tr > th {
+  background-color: #4F46E5 !important; /* Blue background */
+  color: white !important; /* White text */
+}
+
 .ant-select-single.ant-select-show-arrow .ant-select-selection-item{
   color:white;
 }

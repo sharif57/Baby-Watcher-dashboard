@@ -69,7 +69,7 @@ const DashboardHomeTable = () => {
         columns={columns}
         dataSource={data}
         pagination={{ position: ["bottomCenter"] }}
-        className="rounded-lg"
+        className="rounded-lg "
       />
     </div>
   );  
