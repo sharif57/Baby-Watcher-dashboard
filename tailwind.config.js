@@ -11,7 +11,13 @@ export default {
         lightGray: '#B0B0B0',
         lightBlueBg: '#F2F5F7',
       },
+      fontFamily: {
+        // Add the Berkshire Swash font here
+        f: ["Mulish"],
+        // font-family: "Mulish", sans-serif;
+      },
     },
   },
   plugins: [],
 };
+
