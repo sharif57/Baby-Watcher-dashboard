@@ -22,7 +22,7 @@ const Main = () => {
       <div className="flex-1 pl-[326px] bg-[#e0e7ff]">
         <div className={`w-full z-10 transition-all ${
           isScrolled
-            ? "sticky top-0 bg-white shadow-md p-0"
+            ? "sticky top-0  shadow-md p-0"
             : "sticky top-0 bg-transparent p-[24px]"
         }`}>
           <Header />

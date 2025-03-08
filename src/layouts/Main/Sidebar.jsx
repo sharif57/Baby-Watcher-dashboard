@@ -114,10 +114,40 @@ const Sidebar = () => {
         <div className="p-4 mt-auto  text-center">
           <button
             onClick={handleLogOut}
-            className=" w-full bg-red  text-black  font-semibold px-12 py-3 flex items-center justify-center gap-3 text-md outline-none rounded-full"
+            className=" w-full   text-black  font-semibold px-12 py-3 flex items-center justify-center gap-3 text-md outline-none rounded-full"
           >
-            <img className="" src={logout} alt="" />
-            <span className="text-white font-light">Logout</span>
+            {/* <img className="" src={logout} alt="" /> */}
+            <svg
+              width="25"
+              height="24"
+              viewBox="0 0 25 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.4 7.55999C9.71 3.95999 11.56 2.48999 15.61 2.48999H15.74C20.21 2.48999 22 4.27999 22 8.74999V15.27C22 19.74 20.21 21.53 15.74 21.53H15.61C11.59 21.53 9.74 20.08 9.41 16.54"
+                stroke="#BD3634"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M15.5 12H4.12"
+                stroke="#BD3634"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M6.35 8.6499L3 11.9999L6.35 15.3499"
+                stroke="#BD3634"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <span className="text-red  text-[18px] font-medium">Logout</span>
           </button>
         </div>
       </div>

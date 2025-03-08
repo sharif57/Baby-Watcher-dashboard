@@ -107,6 +107,7 @@ const Subscription = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle size={18} className="text-[#6366f1]" />
+                  
                   <span>Messaging Access</span>
                 </li>
               </ul>
