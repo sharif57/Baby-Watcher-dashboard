@@ -1,6 +1,4 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import logo from "/Layer_1.png";
-import logout from "../../assets/images/logout.png";
 import { createElement, useEffect, useState } from "react";
 import { routeLinkGenerators } from "../../utils/routeLinkGenerators";
 import { dashboardItems } from "../../constants/router.constants";

@@ -1,10 +1,12 @@
-"use client"
 
 import { Modal, Table } from "antd"
 import exlamIcon from "../assets/images/exclamation-circle.png"
 import { useState } from "react"
+import { useRecentTransactionsQuery } from "../redux/features/transactionsSlice"
 
 const DashboardHomeTable = () => {
+  const {data: transaction}= useRecentTransactionsQuery()
+  console.log(transaction)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalData, setModalData] = useState({
     name: "Victor",

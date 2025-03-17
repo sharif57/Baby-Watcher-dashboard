@@ -33,33 +33,7 @@ export const dashboardItems = [
     icon: FaUser,
     element: <Guests />,
   },
-  // {
-  //   name: "Approve Request",
-  //   rootPath: "approveRequest",
-  //   icon: GrMoney,
-  //   children: [
-  //     {
-  //       name: "Studio Post",
-  //       path: "approveRequest/all-earnings",
-  //       icon: LuWallet,
-  //       element: <StudioPost />,
-  //     },
-  //     {
-  //       name: "Trainer Post",
-  //       path: "approveRequest/withdraw",
-  //       icon: PiHandWithdrawBold,
-  //       element: <TrainerPost />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: "notifications",
-  //   element: <Notifications />,
-  // },
-  // {
-  //   path: '/reviews',
-  //   element: <Review></Review>
-  // },
+
 
   {
     name: "Subscription",

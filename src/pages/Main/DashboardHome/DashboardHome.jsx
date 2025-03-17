@@ -1,6 +1,10 @@
 import DashboardHomeTable from "../../../Components/DashboardHomeTable";
+import { useGetTotalStatisticsQuery } from "../../../redux/features/userSlice";
 
 const DashboardHome = () => {
+  const {data} = useGetTotalStatisticsQuery()
+  console.log(data?.data?.totalEarning  )
+  const total =data?.data
   return (
     <div className="space-y-[24px] font-f">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-10 lg:gap-x-  gap-y-10 ">
@@ -36,7 +40,7 @@ const DashboardHome = () => {
 
           <div className="text-start">
             <h3 className="text-[20px] text-[#374151] font-f">{"Total User"}</h3>
-            <h3 className="text-[48px] font-semibold text-[#374151] font-f">{`89,200 `}</h3>
+            <h3 className="text-[48px] font-semibold text-[#374151] font-f">{`${total?.totalUser} `}</h3>
           </div>
         </div>
 
@@ -68,7 +72,7 @@ const DashboardHome = () => {
 
           <div className="text-start">
             <h3 className="text-[20px] text-[#374151]">{"Total Earnings"}</h3>
-            <h3 className="text-[48px] font-semibold text-[#374151]">{`$89,000 `}</h3>
+            <h3 className="text-[48px] font-semibold text-[#374151]">${`${total?.totalEarning}`}</h3>
           </div>
         </div>
       </div>

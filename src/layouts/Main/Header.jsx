@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Badge } from "antd";
 import profileImage from "../../assets/images/dash-profile.png";
 import { TbBellRinging } from "react-icons/tb";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { Select } from 'antd';
+
+import { useNotificationGetQuery } from "../../redux/features/notificationSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,10 +12,20 @@ const Header = () => {
   const notificationRef = useRef(null);
   const [notificationPopup, setNotificationPopup] = useState(false);
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  
+  const {data} = useNotificationGetQuery()
+  console.log(data?.data?.result?.length)
+
+  const [userInfo, setUserInfo] = useState({});
+  console.log(userInfo?.email);
+
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsedUserInfo = JSON.parse(userData);
+      setUserInfo(parsedUserInfo);
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -41,7 +51,7 @@ const Header = () => {
     <div className="w-full h-[88px] flex justify-between items-center rounded-xl py-[16px] px-[32px] shadow-lg bg-[#4F46E5] text-white">
       <div className="text-start space-y-0.5">
         <p className="text-sm md:text-xl font-light text-white">
-          {"Welcome, Jane Cooper"}
+          {`Welcome, ${userInfo?.name}`}
         </p>
         <p className="text-sm md:text-xl text-white">{"Have a nice day!"}</p>
       </div>
@@ -50,18 +60,32 @@ const Header = () => {
           onClick={(e) => navigate("/notifications")}
           className="relative flex items-center"
         >
-          <Badge style={{ backgroundColor: "white", color:'black', width: '20px', height: '20px', objectFit: 'contain' }} count={14}>
+          <Badge
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              width: "20px",
+              height: "20px",
+              objectFit: "contain",
+            }}
+            count={data?.data?.result?.length}
+          >
             <TbBellRinging
               style={{ cursor: "pointer" }}
               className="w-6 h-6 rounded-full shadow-sm text-white font-bold transition-all"
             />
           </Badge>
         </div>
-        <div className="flex items-center">
+        <Link to={'/settings/profile'} className="flex items-center">
           <div>
-            <img src={profileImage} alt="" className="rounded-full h-[42px] w-[42px]" />
+            <img
+              src={profileImage}
+              alt=""
+              className="rounded-full h-[42px] w-[42px]"
+            />
           </div>
-          <Select
+          <h1> {userInfo?.name}</h1>
+          {/* <Select
             defaultValue="Jane Cooper"
             className="text-white"
             style={{
@@ -73,16 +97,13 @@ const Header = () => {
             onChange={handleChange}
             options={[
               {
-                value: 'Jane Cooper',
-                label: 'Jane Cooper',
+                value: `${userInfo?.name}`,
+                // label: 'Jane Cooper',
               },
-              {
-                value: 'lucy',
-                label: 'Lucy',
-              }
+             
             ]}
-          />
-        </div>
+          /> */}
+        </Link>
       </div>
     </div>
   );

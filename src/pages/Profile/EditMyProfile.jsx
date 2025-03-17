@@ -1,10 +1,19 @@
-// import { Button, Form, Input } from "antd";
-// import dashProfile from "../../assets/images/dashboard-profile.png";
 
+// import { Button, Form, Input, Upload, Image } from "antd";
+// import { UploadOutlined } from "@ant-design/icons";
+// import dashProfile from "../../assets/images/dashboard-profile.png";
 // import { ArrowLeft, User, Mail, Phone } from "lucide-react";
 // import { Link } from "react-router-dom";
+// import { useState } from "react";
+// import { useUpdateUserProfileMutation } from "../../redux/features/userSlice";
 
 // const EditMyProfile = () => {
+
+//   const [updateUserProfile] =useUpdateUserProfileMutation()
+//   const [fileList, setFileList] = useState([]);
+//   const [previewImage, setPreviewImage] = useState("");
+//   const [previewOpen, setPreviewOpen] = useState(false);
+
 //   const onFinish = (values) => {
 //     console.log("Success:", values);
 //   };
@@ -13,12 +22,40 @@
 //     console.log("Failed:", errorInfo);
 //   };
 
+//   const handleChange = ({ fileList: newFileList }) => {
+//     setFileList(newFileList);
+//   };
+
+//   const handlePreview = async (file) => {
+//     if (!file.url && !file.preview) {
+//       file.preview = await getBase64(file.originFileObj);
+//     }
+//     setPreviewImage(file.url || file.preview);
+//     setPreviewOpen(true);
+//   };
+
+//   const getBase64 = (file) => {
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.readAsDataURL(file);
+//       reader.onload = () => resolve(reader.result);
+//       reader.onerror = (error) => reject(error);
+//     });
+//   };
+
 //   const profileData = {
 //     name: "Jane Kooper",
 //     email: "enrique@gmail.com",
 //     phone: "+880 150597212",
 //     profile: dashProfile,
 //   };
+
+//   const uploadButton = (
+//     <div>
+//       <UploadOutlined />
+//       <div style={{ marginTop: 8 }}>Upload</div>
+//     </div>
+//   );
 
 //   return (
 //     <>
@@ -56,41 +93,40 @@
 //               <div className="col-span-3 space-y-6">
 //                 <div className="min-h-[300px] flex flex-col items-center justify-center p-8 rounded-lg bg-white">
 //                   <div className="my-2 relative group">
-//                     <img
-//                       src={dashProfile || "/placeholder.svg"}
-//                       alt=""
-//                       className="h-28 w-28 rounded-full border-4 border-black"
-//                     />
-//                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-//                       <label
-//                         htmlFor="profile-upload"
-//                         className="cursor-pointer"
-//                       >
-//                         <input
-//                           id="profile-upload"
-//                           type="file"
-//                           className="hidden"
-//                           accept="image/*"
-//                         />
-//                         <div className="text-white">
-//                           <svg
-//                             xmlns="http://www.w3.org/2000/svg"
-//                             width="24"
-//                             height="24"
-//                             viewBox="0 0 24 24"
-//                             fill="none"
-//                             stroke="currentColor"
-//                             strokeWidth="2"
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             className="mx-auto"
-//                           >
-//                             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-//                             <circle cx="12" cy="13" r="4"></circle>
-//                           </svg>
+//                     <Upload
+//                       action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+//                       listType="picture-circle"
+//                       fileList={fileList}
+//                       onPreview={handlePreview}
+//                       onChange={handleChange}
+//                     >
+//                       {fileList.length >= 1 ? null : (
+//                         <div>
+//                           <img
+//                             src={dashProfile || "/placeholder.svg"}
+//                             alt=""
+//                             className="h-30 w-30 rounded-full border-4 border-black"
+//                           />
+//                           <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+//                             {uploadButton}
+//                           </div>
 //                         </div>
-//                       </label>
-//                     </div>
+//                       )}
+//                     </Upload>
+//                     {previewImage && (
+//                       <Image
+//                         wrapperStyle={{
+//                           display: "none",
+//                         }}
+//                         preview={{
+//                           visible: previewOpen,
+//                           onVisibleChange: (visible) => setPreviewOpen(visible),
+//                           afterOpenChange: (visible) =>
+//                             !visible && setPreviewImage(""),
+//                         }}
+//                         src={previewImage}
+//                       />
+//                     )}
 //                   </div>
 //                   <h5 className="text-lg text-[#222222]">{"Profile"}</h5>
 //                   <h4 className="text-2xl text-[#222222]">{"Admin"}</h4>
@@ -155,21 +191,43 @@
 // };
 
 // export default EditMyProfile;
-import { Button, Form, Input, Upload, Image } from "antd";
+
+import { Button, Form, Input, Upload, Image, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import dashProfile from "../../assets/images/dashboard-profile.png";
-import { ArrowLeft, User, Mail, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, User, Mail } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useUpdateUserProfileMutation, useUserProfileQuery } from "../../redux/features/userSlice";
 
 const EditMyProfile = () => {
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+  const { data } = useUserProfileQuery();
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const onFinish = async (values) => {
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("phone", values.phone);
+    formData.append("address", values.address);
+
+    if (fileList.length > 0) {
+      formData.append("image", fileList[0].originFileObj);
+    }
+
+    try {
+      const response = await updateUserProfile(formData).unwrap();
+      message.success(response.message || "Profile updated successfully");
+      navigate("/settings/profile");
+    } catch (error) {
+      message.error(error.data?.message || "Failed to update profile");
+    }
   };
+
+  const IMAGE = import.meta.env.VITE_IMAGE_API;
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -197,10 +255,10 @@ const EditMyProfile = () => {
   };
 
   const profileData = {
-    name: "Jane Kooper",
-    email: "enrique@gmail.com",
-    phone: "+880 150597212",
-    profile: dashProfile,
+    name: data?.data?.name,
+    email: data?.data?.email,
+    phone: data?.data?.phone,
+    profile: data?.data?.image || dashProfile,
   };
 
   const uploadButton = (
@@ -256,7 +314,7 @@ const EditMyProfile = () => {
                       {fileList.length >= 1 ? null : (
                         <div>
                           <img
-                            src={dashProfile || "/placeholder.svg"}
+                            src={`${IMAGE}${profileData.profile}` || "/placeholder.svg"}
                             alt=""
                             className="h-30 w-30 rounded-full border-4 border-black"
                           />
@@ -305,13 +363,14 @@ const EditMyProfile = () => {
                   name="email"
                 >
                   <Input
+                    readOnly
                     size="large"
                     className="h-[53px] rounded-full"
                     prefix={<Mail className="mr-2 text-gray-400" size={18} />}
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   className="text-lg font-medium text-black"
                   label="Phone"
                   name="phone"
@@ -322,7 +381,7 @@ const EditMyProfile = () => {
                     placeholder="0161198984"
                     prefix={<Phone className="mr-2 text-gray-400" size={18} />}
                   />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item className="flex justify-end pt-4">
                   <Button
