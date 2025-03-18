@@ -1,5 +1,4 @@
 import { Button, Form, Input, Modal } from "antd";
-import React from "react";
 import { LiaArrowLeftSolid } from "react-icons/lia";
 import { MdLockOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
