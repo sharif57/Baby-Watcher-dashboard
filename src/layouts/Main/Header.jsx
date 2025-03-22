@@ -5,6 +5,7 @@ import profileImage from "../../assets/images/dash-profile.png";
 import { TbBellRinging } from "react-icons/tb";
 
 import { useNotificationGetQuery } from "../../redux/features/notificationSlice";
+import { useUserProfileQuery } from "../../redux/features/userSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,10 +14,12 @@ const Header = () => {
   const [notificationPopup, setNotificationPopup] = useState(false);
 
   const {data} = useNotificationGetQuery()
-  console.log(data?.data?.result?.length)
+  // console.log(data?.data?.result?.length)
 
   const [userInfo, setUserInfo] = useState({});
   console.log(userInfo?.email);
+  const {data:profile} = useUserProfileQuery()
+  console.log(profile?.data)
 
 
   useEffect(() => {
@@ -47,11 +50,13 @@ const Header = () => {
     setNotificationPopup(false);
   }, [loacatin.pathname]);
 
+  const IMAGE = import.meta.env.VITE_IMAGE_API;
+
   return (
     <div className="w-full h-[88px] flex justify-between items-center rounded-xl py-[16px] px-[32px] shadow-lg bg-[#4F46E5] text-white">
       <div className="text-start space-y-0.5">
         <p className="text-sm md:text-xl font-light text-white">
-          {`Welcome, ${userInfo?.name}`}
+          {`Welcome, ${profile?.data?.name}`}
         </p>
         <p className="text-sm md:text-xl text-white">{"Have a nice day!"}</p>
       </div>
@@ -79,12 +84,12 @@ const Header = () => {
         <Link to={'/settings/profile'} className="flex items-center">
           <div>
             <img
-              src={profileImage}
+              src={`${IMAGE}${profile?.data?.image}`}
               alt=""
               className="rounded-full h-[42px] w-[42px]"
             />
           </div>
-          <h1> {userInfo?.name}</h1>
+          {/* <h1> {userInfo?.name}</h1> */}
           {/* <Select
             defaultValue="Jane Cooper"
             className="text-white"

@@ -15,7 +15,7 @@ const PageHeading = ({ title, backPath, disbaledBackBtn, className }) => {
           <FaArrowLeftLong size={22} />
         </button>
       )}
-      {!!title && <h1 className="text-[25px] font-medium">{title}</h1>}
+      {!!title && <h1 className="text-[25px] font-medium ">{title}</h1>}
     </div>
   );
 };

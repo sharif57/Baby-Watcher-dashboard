@@ -1,68 +1,180 @@
-import { Button, Input } from "antd";
-import Form from "antd/es/form/Form";
+// import { Button, Input, message } from "antd";
+// import Form from "antd/es/form/Form";
 
+// import { useNavigate } from "react-router-dom";
+// import image from "/sign.png";
+// import PageHeading from "../../Components/PageHeading";
+// import { useResetPasswordMutation } from "../../redux/features/authSlice";
+// import { useState } from "react";
+
+// const ResetPassword = () => {
+//   const navigate = useNavigate();
+//   const [resetPassword]=useResetPasswordMutation()
+
+ 
+ 
+
+//   const [form] = Form.useForm();
+//   const [password, setPassword] = useState("");
+//   const [confirmPassword, setConfirmPassword] = useState("");
+
+//   const onFinish = async (values) => {
+//     if (values.password !== values.confirmPassword) {
+//       message.error("Passwords do not match!");
+//       return;
+//     }
+
+//     try {
+//       const response = await resetPassword({
+//         password: values.password,
+//       }).unwrap();
+
+//       if (response.success) {
+//         message.success(response.message);
+        
+//         navigate("/");
+//       } else {
+//         message.error(response.message || "Password reset failed!");
+//       }
+//     } catch (error) {
+//       message.error(error?.data?.message || "Something went wrong!");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-[100vh] w-full grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-1 lg:gap-8 bg-[#E0E7FF]">
+//       <div className="g:border-r-2 border-primary bg-[#4F46E5] h-full mx-auto w-[100%]  lg:p-[30%] lg:pr-[10%]">
+//         <img src={image} alt="" />
+//       </div>
+//       <div  className="max-w-2xl mx-auto bg-white rounded-lg text-center">
+//         <div className=" order-first lg:order-last">
+//           <div className="w-full py-[44px] lg:px-[44px] space-y-8">
+//             <div className="flex flex-col items-center lg:items-start">
+//               <PageHeading
+//                 backPath={-1}
+//                 title={"Set new password"}
+//                 disbaledBackBtn={true}
+//               />
+//               <p className=" drop-shadow text-[#464343] mt-5">
+//                 Your password must be 8-10 character long.
+//               </p>
+//             </div>
+//             <Form
+//               name="normal_login"
+//               layout="vertical"
+//               initialValues={{
+//                 remember: true,
+//               }}
+//               requiredMark={false}
+//               onFinish={onFinish}
+//             >
+//               <Form.Item
+//                 label={
+//                   <span className="font-medium text-base">New Password</span>
+//                 }
+//                 name="newPassword"
+//                 rules={[
+//                   {
+//                     required: true,
+//                     message: "Please input new password!",
+//                   },
+//                 ]}
+//               >
+//                 <Input.Password size="large" placeholder="**********" />
+//               </Form.Item>
+//               <Form.Item
+//                 label={
+//                   <span className="font-medium text-base">
+//                     Confirm New Password
+//                   </span>
+//                 }
+//                 name="rePassword"
+//                 rules={[
+//                   {
+//                     required: true,
+//                     message: "Please Re-Enter the password!",
+//                   },
+//                   ({ getFieldValue }) => ({
+//                     validator(_, value) {
+//                       if (!value || getFieldValue("newPassword") === value) {
+//                         return Promise.resolve();
+//                       }
+//                       return Promise.reject(
+//                         new Error(
+//                           "The new password that you entered do not match!"
+//                         )
+//                       );
+//                     },
+//                   }),
+//                 ]}
+//               >
+//                 <Input.Password size="large" placeholder="**********" />
+//               </Form.Item>
+//               <div className="w-full flex justify-center pt-4 ">
+//                 <Button
+//                   // disabled={isLoading}
+//                   type="primary"
+//                   size="large"
+//                   htmlType="submit"
+//                   className="w-full px-2 bg-[#4F46E5] "
+//                 >
+//                   Reset Password
+//                 </Button>
+//               </div>
+//             </Form>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ResetPassword;
+
+
+import { Button, Input, message } from "antd";
+import Form from "antd/es/form/Form";
 import { useNavigate } from "react-router-dom";
 import image from "/sign.png";
-// import ComponentContainer from "../../Components/ComponentContainer";
 import PageHeading from "../../Components/PageHeading";
-// import { useChangePasswordMutation } from "../../redux/features/Auth/authApi";
-// import { useDispatch, useSelector } from "react-redux";
-// import Swal from "sweetalert2";
-// import { setUser } from "../../redux/features/Auth/authSlice";
+import { useResetPasswordMutation } from "../../redux/features/authSlice";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const { token } = useSelector((state) => state.auth);
-  // const [mutation, { isLoading }] = useChangePasswordMutation();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation(); // Added isLoading
+  const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    navigate("/auth");
-    // try {
-    //   const response = await mutation({
-    //     password: values.newPassword,
-    //     // token: token,
-    //   });
-    //   if (response?.data?.statusCode == 200) {
-    //     localStorage.setItem("verify-token", null);
-    //     dispatch(
-    //       setUser({
-    //         user: null,
-    //         token: null,
-    //       })
-    //     );
-    //     navigate("/auth");
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: response?.data?.message,
-    //       showConfirmButton: false,
-    //       timer: 1000,
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "failed!",
-    //       text:
-    //         response?.data?.message ||
-    //         response?.error?.data?.message ||
-    //         "Something went wrong. Please try again later.",
-    //     });
-    //   }
-    // } catch (error) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Failed !!",
-    //     text: "Something went wrong.",
-    //   });
-    // }
+    if (values.newPassword !== values.confirmPassword) {
+      message.error("Passwords do not match!");
+      return;
+    }
+
+    try {
+      // Send the correct payload structure
+      const response = await resetPassword({
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      }).unwrap();
+
+      if (response.success) {
+        message.success(response.message);
+        navigate("/"); // Redirect to home page after successful password reset
+      } else {
+        message.error(response.message || "Password reset failed!");
+      }
+    } catch (error) {
+      message.error(error?.data?.message || "Something went wrong!");
+    }
   };
+
   return (
     <div className="min-h-[100vh] w-full grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-1 lg:gap-8 bg-[#E0E7FF]">
-      <div className="g:border-r-2 border-primary bg-[#4F46E5] h-full mx-auto w-[100%]  lg:p-[30%] lg:pr-[10%]">
-        <img src={image} alt="" />
+      <div className="lg:border-r-2 border-primary bg-[#4F46E5] h-full mx-auto w-[100%] lg:p-[30%] lg:pr-[10%]">
+        <img src={image} alt="Sign In Illustration" />
       </div>
-      <div  className="max-w-2xl mx-auto bg-white rounded-lg text-center">
-        <div className=" order-first lg:order-last">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg text-center">
+        <div className="order-first lg:order-last">
           <div className="w-full py-[44px] lg:px-[44px] space-y-8">
             <div className="flex flex-col items-center lg:items-start">
               <PageHeading
@@ -70,68 +182,54 @@ const ResetPassword = () => {
                 title={"Set new password"}
                 disbaledBackBtn={true}
               />
-              <p className=" drop-shadow text-[#464343] mt-5">
-                Your password must be 8-10 character long.
+              <p className="drop-shadow text-[#464343] mt-5">
+                Your password must be 8-10 characters long.
               </p>
             </div>
             <Form
               name="normal_login"
               layout="vertical"
-              initialValues={{
-                remember: true,
-              }}
+              initialValues={{ remember: true }}
               requiredMark={false}
               onFinish={onFinish}
+              form={form}
             >
               <Form.Item
-                label={
-                  <span className="font-medium text-base">New Password</span>
-                }
+                label={<span className="font-medium text-base">New Password</span>}
                 name="newPassword"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please input new password!",
-                  },
+                  { required: true, message: "Please input new password!" },
+                  { min: 8, message: "Password must be at least 8 characters!" },
+                  { max: 10, message: "Password cannot exceed 10 characters!" },
                 ]}
               >
                 <Input.Password size="large" placeholder="**********" />
               </Form.Item>
               <Form.Item
-                label={
-                  <span className="font-medium text-base">
-                    Confirm New Password
-                  </span>
-                }
-                name="rePassword"
+                label={<span className="font-medium text-base">Confirm New Password</span>}
+                name="confirmPassword"
+                dependencies={["newPassword"]}
                 rules={[
-                  {
-                    required: true,
-                    message: "Please Re-Enter the password!",
-                  },
+                  { required: true, message: "Please confirm your password!" },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (!value || getFieldValue("newPassword") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(
-                        new Error(
-                          "The new password that you entered do not match!"
-                        )
-                      );
+                      return Promise.reject(new Error("The passwords do not match!"));
                     },
                   }),
                 ]}
               >
                 <Input.Password size="large" placeholder="**********" />
               </Form.Item>
-              <div className="w-full flex justify-center pt-4 ">
+              <div className="w-full flex justify-center pt-4">
                 <Button
-                  // disabled={isLoading}
                   type="primary"
                   size="large"
                   htmlType="submit"
-                  className="w-full px-2 "
+                  className="w-full px-2 bg-[#4F46E5]"
+                  loading={isLoading} // Disable button when loading
                 >
                   Reset Password
                 </Button>
