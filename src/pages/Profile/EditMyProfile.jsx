@@ -1,4 +1,3 @@
-
 // import { Button, Form, Input, Upload, Image } from "antd";
 // import { UploadOutlined } from "@ant-design/icons";
 // import dashProfile from "../../assets/images/dashboard-profile.png";
@@ -192,13 +191,235 @@
 
 // export default EditMyProfile;
 
+// import { Button, Form, Input, Upload, Image, message } from "antd";
+// import { UploadOutlined } from "@ant-design/icons";
+// import dashProfile from "../../assets/images/dashboard-profile.png";
+// import { ArrowLeft, User, Mail } from "lucide-react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { useState } from "react";
+// import {
+//   useUpdateUserProfileMutation,
+//   useUserProfileQuery,
+// } from "../../redux/features/userSlice";
+
+// const EditMyProfile = () => {
+//   const [updateUserProfile] = useUpdateUserProfileMutation();
+//   const { data } = useUserProfileQuery();
+//   const [fileList, setFileList] = useState([]);
+//   const [previewImage, setPreviewImage] = useState("");
+//   const [previewOpen, setPreviewOpen] = useState(false);
+//   const navigate = useNavigate();
+
+//   const onFinish = async (values) => {
+//     const formData = new FormData();
+//     formData.append("name", values.name);
+//     formData.append("phone", values.phone);
+//     formData.append("address", values.address);
+
+//     if (fileList.length > 0) {
+//       formData.append("image", fileList[0].originFileObj);
+//     }
+
+//     try {
+//       const response = await updateUserProfile(formData).unwrap();
+//       message.success(response.message || "Profile updated successfully");
+//       navigate("/settings/profile");
+//     } catch (error) {
+//       message.error(error.data?.message || "Failed to update profile");
+//     }
+//   };
+
+//   const IMAGE = import.meta.env.VITE_IMAGE_API;
+
+//   const onFinishFailed = (errorInfo) => {
+//     console.log("Failed:", errorInfo);
+//   };
+
+//   const handleChange = ({ fileList: newFileList }) => {
+//     setFileList(newFileList);
+//   };
+
+//   const handlePreview = async (file) => {
+//     if (!file.url && !file.preview) {
+//       file.preview = await getBase64(file.originFileObj);
+//     }
+//     setPreviewImage(file.url || file.preview);
+//     setPreviewOpen(true);
+//   };
+
+//   const getBase64 = (file) => {
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.readAsDataURL(file);
+//       reader.onload = () => resolve(reader.result);
+//       reader.onerror = (error) => reject(error);
+//     });
+//   };
+
+//   const profileData = {
+//     name: data?.data?.user?.name,
+//     email: data?.data?.user?.email ,
+//     phone: data?.data?.phone,
+//     profile: data?.data?.image || dashProfile,
+//   };
+
+//   const uploadButton = (
+//     <div>
+//       <UploadOutlined />
+//       <div style={{ marginTop: 8 }}>Upload</div>
+//     </div>
+//   );
+
+//   return (
+//     <>
+//       <div className="flex items-center gap-3 mb-8 bg-white py-5 px-2 rounded-t-xl">
+//         <Link to="/settings/profile">
+//           <button className="hover:bg-gray-100 p-2 rounded-full transition-colors">
+//             <ArrowLeft className="w-5 h-5 text-gray-600" />
+//           </button>
+//         </Link>
+//         <h1 className="text-xl font-semibold text-gray-800">
+//           Edit Personal Information
+//         </h1>
+//       </div>
+
+//       <div className="rounded-lg py-4 border-lightGray mt-8">
+//         <div className="space-y-[24px] min-h-[83vh] bg-light-gray rounded-2xl">
+//           <div className="w-full">
+//             <div className="py-4 px-8 flex justify-end items-center">
+//               {/* <h6 className="text-2xl text-white">Personal Information</h6> */}
+//             </div>
+
+//             <Form
+//               name="basic"
+//               layout="vertical"
+//               className="w-full grid grid-cols-12 gap-x-10 px-14 py-8"
+//               onFinish={onFinish}
+//               onFinishFailed={onFinishFailed}
+//               autoComplete="off"
+//               initialValues={{
+//                 name: profileData.name,
+//                 email: profileData.email,
+//                 phone: profileData.phone,
+//               }}
+//             >
+//               <div className="col-span-3 space-y-6">
+//                 <div className="min-h-[300px] flex flex-col items-center justify-center p-8 rounded-lg bg-white">
+//                   <div className="my-2 relative group">
+//                     <Upload
+//                       action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+//                       listType="picture-circle"
+//                       fileList={fileList}
+//                       onPreview={handlePreview}
+//                       onChange={handleChange}
+//                     >
+//                       {fileList.length >= 1 ? null : (
+//                         <div>
+//                           <img
+//                             src={
+//                               `${IMAGE}${profileData.profile}` ||
+//                               "/placeholder.svg"
+//                             }
+//                             alt=""
+//                             className="h-30 w-30 rounded-full border-4 border-black"
+//                           />
+//                           <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+//                             {uploadButton}
+//                           </div>
+//                         </div>
+//                       )}
+//                     </Upload>
+//                     {previewImage && (
+//                       <Image
+//                         wrapperStyle={{
+//                           display: "none",
+//                         }}
+//                         preview={{
+//                           visible: previewOpen,
+//                           onVisibleChange: (visible) => setPreviewOpen(visible),
+//                           afterOpenChange: (visible) =>
+//                             !visible && setPreviewImage(""),
+//                         }}
+//                         src={previewImage}
+//                       />
+//                     )}
+//                   </div>
+//                   <h5 className="text-lg text-[#222222]">{"Profile"}</h5>
+//                   <h4 className="text-2xl text-[#222222]">{`${data?.data?.user?.role}`}</h4>
+//                 </div>
+//               </div>
+
+//               <div className="col-span-9 space-y-[14px] w-full">
+//                 <Form.Item
+//                   className="text-lg font-medium text-black -mb-1"
+//                   label="Name"
+//                   name="name"
+//                 >
+//                   <Input
+//                     size="large"
+//                     className="h-[53px] rounded-full"
+//                     prefix={<User className="mr-2 text-gray-400" size={18} />}
+//                   />
+//                 </Form.Item>
+
+//                 <Form.Item
+//                   className="text-lg font-medium text-black"
+//                   label="Email"
+//                   name="email"
+//                 >
+//                   <Input
+//                     readOnly
+//                     size="large"
+//                     className="h-[53px] rounded-full"
+//                     prefix={<Mail className="mr-2 text-gray-400" size={18} />}
+//                   />
+//                 </Form.Item>
+
+//                 {/* <Form.Item
+//                   className="text-lg font-medium text-black"
+//                   label="Phone"
+//                   name="phone"
+//                 >
+//                   <Input
+//                     size="large"
+//                     className="h-[53px] rounded-full"
+//                     placeholder="0161198984"
+//                     prefix={<Phone className="mr-2 text-gray-400" size={18} />}
+//                   />
+//                 </Form.Item> */}
+
+//                 <Form.Item className="flex justify-end pt-4">
+//                   <Button
+//                     htmlType="submit"
+//                     size="large"
+//                     type="primary"
+//                     className="px-8 bg-[#4F46E5] text-white hover:bg-[#5254cc] rounded-full font-semibold h-[53px]"
+//                   >
+//                     Save Changes
+//                   </Button>
+//                 </Form.Item>
+//               </div>
+//             </Form>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default EditMyProfile;
+
+
 import { Button, Form, Input, Upload, Image, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import dashProfile from "../../assets/images/dashboard-profile.png";
 import { ArrowLeft, User, Mail } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useUpdateUserProfileMutation, useUserProfileQuery } from "../../redux/features/userSlice";
+import {
+  useUpdateUserProfileMutation,
+  useUserProfileQuery,
+} from "../../redux/features/userSlice";
 
 const EditMyProfile = () => {
   const [updateUserProfile] = useUpdateUserProfileMutation();
@@ -211,10 +432,11 @@ const EditMyProfile = () => {
   const onFinish = async (values) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("phone", values.phone);
-    formData.append("address", values.address);
+    formData.append("phone", values.phone || "");
+    formData.append("address", values.address || "");
 
-    if (fileList.length > 0) {
+    // Only append image if a new one was selected
+    if (fileList.length > 0 && fileList[0].originFileObj) {
       formData.append("image", fileList[0].originFileObj);
     }
 
@@ -231,6 +453,7 @@ const EditMyProfile = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    message.error("Please fill in all required fields correctly");
   };
 
   const handleChange = ({ fileList: newFileList }) => {
@@ -255,14 +478,14 @@ const EditMyProfile = () => {
   };
 
   const profileData = {
-    name: data?.data?.name,
-    email: data?.data?.email,
-    phone: data?.data?.phone,
-    profile: data?.data?.image || dashProfile,
+    name: data?.data?.user?.name,
+    email: data?.data?.user?.email,
+    phone: data?.data?.user?.phone,
+    profile: data?.data?.user?.image || dashProfile,
   };
 
   const uploadButton = (
-    <div>
+    <div className="flex flex-col items-center justify-center">
       <UploadOutlined />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
@@ -284,10 +507,6 @@ const EditMyProfile = () => {
       <div className="rounded-lg py-4 border-lightGray mt-8">
         <div className="space-y-[24px] min-h-[83vh] bg-light-gray rounded-2xl">
           <div className="w-full">
-            <div className="py-4 px-8 flex justify-end items-center">
-              {/* <h6 className="text-2xl text-white">Personal Information</h6> */}
-            </div>
-
             <Form
               name="basic"
               layout="vertical"
@@ -303,22 +522,36 @@ const EditMyProfile = () => {
             >
               <div className="col-span-3 space-y-6">
                 <div className="min-h-[300px] flex flex-col items-center justify-center p-8 rounded-lg bg-white">
-                  <div className="my-2 relative group">
+                  <div className="my-2 relative">
                     <Upload
-                      action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                       listType="picture-circle"
                       fileList={fileList}
                       onPreview={handlePreview}
                       onChange={handleChange}
+                      beforeUpload={() => false} // Prevent automatic upload
+                      showUploadList={false}
                     >
-                      {fileList.length >= 1 ? null : (
-                        <div>
+                      {fileList.length > 0 ? (
+                        <img
+                          src={fileList[0].thumbUrl || fileList[0].preview}
+                          alt="New profile"
+                          className="h-28 w-28 rounded-full border-4 border-black object-cover"
+                        />
+                      ) : (
+                        <div className="relative">
                           <img
-                            src={`${IMAGE}${profileData.profile}` || "/placeholder.svg"}
-                            alt=""
-                            className="h-30 w-30 rounded-full border-4 border-black"
+                            src={
+                              profileData.profile.startsWith('http') 
+                                ? profileData.profile 
+                                : `${IMAGE}${profileData.profile}`
+                            }
+                            alt="Current profile"
+                            className="h-28 w-28 rounded-full border-4 border-black object-cover"
+                            onError={(e) => {
+                              e.target.src = dashProfile;
+                            }}
                           />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
                             {uploadButton}
                           </div>
                         </div>
@@ -326,9 +559,7 @@ const EditMyProfile = () => {
                     </Upload>
                     {previewImage && (
                       <Image
-                        wrapperStyle={{
-                          display: "none",
-                        }}
+                        wrapperStyle={{ display: "none" }}
                         preview={{
                           visible: previewOpen,
                           onVisibleChange: (visible) => setPreviewOpen(visible),
@@ -339,8 +570,10 @@ const EditMyProfile = () => {
                       />
                     )}
                   </div>
-                  <h5 className="text-lg text-[#222222]">{"Profile"}</h5>
-                  <h4 className="text-2xl text-[#222222]">{"Admin"}</h4>
+                  <h5 className="text-lg text-[#222222]">Profile</h5>
+                  <h4 className="text-2xl text-[#222222] capitalize">
+                    {data?.data?.user?.role?.toLowerCase()}
+                  </h4>
                 </div>
               </div>
 
@@ -349,6 +582,9 @@ const EditMyProfile = () => {
                   className="text-lg font-medium text-black -mb-1"
                   label="Name"
                   name="name"
+                  rules={[
+                    { required: true, message: 'Please input your name!' }
+                  ]}
                 >
                   <Input
                     size="large"
@@ -369,19 +605,6 @@ const EditMyProfile = () => {
                     prefix={<Mail className="mr-2 text-gray-400" size={18} />}
                   />
                 </Form.Item>
-
-                {/* <Form.Item
-                  className="text-lg font-medium text-black"
-                  label="Phone"
-                  name="phone"
-                >
-                  <Input
-                    size="large"
-                    className="h-[53px] rounded-full"
-                    placeholder="0161198984"
-                    prefix={<Phone className="mr-2 text-gray-400" size={18} />}
-                  />
-                </Form.Item> */}
 
                 <Form.Item className="flex justify-end pt-4">
                   <Button

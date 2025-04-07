@@ -127,7 +127,6 @@ import Form from "antd/es/form/Form";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import image from "/sign.png";
-import PageHeading from "../../Components/PageHeading";
 import OTPInput from "react-otp-input";
 import Swal from "sweetalert2";
 import { useVerifyEmailMutation } from "../../redux/features/authSlice";
@@ -155,7 +154,7 @@ const VerifyEmail = () => {
 
       if (response?.success) {
         // Save access token to localStorage
-        localStorage.setItem("accessToken", response?.data?.accessToken);
+        localStorage.setItem("accessToken", response?.data?.data);
         message.success(response?.message || "Email verified successfully!");
         navigate("/auth/reset-password"); // Redirect to reset password page
       } else {

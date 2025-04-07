@@ -266,12 +266,12 @@ const SignIn = () => {
               >
                 <Input.Password size="large" placeholder="**********" />
               </Form.Item>
-              <div className="flex justify-between items-center">
-                <Form.Item name="remember" valuePropName="checked">
+              <div className="flex justify-end items-end">
+                {/* <Form.Item name="remember" valuePropName="checked">
                   <Checkbox className="text-base font-medium">
                     Remember me
                   </Checkbox>
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item>
                   <Button
                     onClick={() => navigate("/auth/forgot-password")}

@@ -128,7 +128,8 @@ import { useUserProfileQuery } from "../../redux/features/userSlice";
 const MyProfile = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, isLoading, isError, refetch } = useUserProfileQuery();
+  const { data, isLoading, isError } = useUserProfileQuery();
+  console.log(data?.data?.user?.name)
 
   const IMAGE = import.meta.env.VITE_IMAGE_API;
 
@@ -165,21 +166,21 @@ const MyProfile = () => {
                 className="w-full grid grid-cols-12 gap-x-10 px-14 py-8"
                 autoComplete="off"
                 initialValues={{
-                  name: data?.data?.name,
-                  email: data?.data?.email,
+                  name: data?.data?.user?.name,
+                  email: data?.data?.user?.email,
                 }}
               >
                 <div className="col-span-3 space-y-6">
                   <div className="min-h-[300px] flex flex-col items-center justify-center p-8 rounded-lg bg-white">
                     <div className="my-2">
                       <img
-                        src={`${IMAGE}${data?.data?.image}` || dashProfile}
+                        src={`${IMAGE}${data?.data?.user?.image}` || dashProfile}
                         alt=""
                         className="h-28 w-28 rounded-full border-4 border-black"
                       />
                     </div>
                     <h5 className="text-lg text-[#222222]">{"Profile"}</h5>
-                    <h4 className="text-2xl text-[#222222]">{"Admin"}</h4>
+                    <h4 className="text-2xl text-[#222222]">{`${data?.data?.user?.role}`}</h4>
                   </div>
                 </div>
                 <div className="col-span-9 space-y-[14px] w-full">

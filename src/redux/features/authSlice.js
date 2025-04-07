@@ -31,6 +31,9 @@ export const authAPI = baseApi.injectEndpoints({
         url: "/auth/verify-email",
         method: "POST",
         body: data,
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        // },
       }),
     }),
 
@@ -42,15 +45,35 @@ export const authAPI = baseApi.injectEndpoints({
       }),
     }),
 
+    // resetPassword: builder.mutation({
+    //   query: (data) => ({
+    //     url: "/auth/reset-password",
+    //     method: "POST",
+    //     body: data,
+    //     headers: {
+    //       Authorization: `${localStorage.getItem("accessToken")}`,
+    //     },
+    //   }),
+    // }),
+
     resetPassword: builder.mutation({
-      query: (data) => ({
-        url: "/auth/reset-password",
-        method: "POST",
-        body: data,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }),
+      query: (data) => {
+        const token = localStorage.getItem("accessToken");
+        console.log(token , "reset password")
+
+        if (!token) {
+          throw new Error("No token found. Please verify your email again.");
+        }
+
+        return {
+          url: "/auth/reset-password",
+          method: "POST",
+          body: data, 
+          headers: {
+            Authorization: token,
+          },
+        };
+      },
     }),
   }),
 });

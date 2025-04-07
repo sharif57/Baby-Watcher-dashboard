@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Badge } from "antd";
-import profileImage from "../../assets/images/dash-profile.png";
 import { TbBellRinging } from "react-icons/tb";
 
 import { useNotificationGetQuery } from "../../redux/features/notificationSlice";
@@ -13,14 +12,13 @@ const Header = () => {
   const notificationRef = useRef(null);
   const [notificationPopup, setNotificationPopup] = useState(false);
 
-  const {data} = useNotificationGetQuery()
+  const { data } = useNotificationGetQuery();
   // console.log(data?.data?.result?.length)
 
   const [userInfo, setUserInfo] = useState({});
   console.log(userInfo?.email);
-  const {data:profile} = useUserProfileQuery()
-  console.log(profile?.data)
-
+  const { data: profile } = useUserProfileQuery();
+  console.log(profile?.data?.name, "profile");
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -56,7 +54,8 @@ const Header = () => {
     <div className="w-full h-[88px] flex justify-between items-center rounded-xl py-[16px] px-[32px] shadow-lg bg-[#4F46E5] text-white">
       <div className="text-start space-y-0.5">
         <p className="text-sm md:text-xl font-light text-white">
-          {`Welcome, ${profile?.data?.name}`}
+          {/* {`Welcome, ${profile?.data?.name}`} */}
+          {`Welcome, ${profile?.data?.user?.name}`}
         </p>
         <p className="text-sm md:text-xl text-white">{"Have a nice day!"}</p>
       </div>
@@ -81,10 +80,10 @@ const Header = () => {
             />
           </Badge>
         </div>
-        <Link to={'/settings/profile'} className="flex items-center">
+        <Link to={"/settings/profile"} className="flex items-center">
           <div>
             <img
-              src={`${IMAGE}${profile?.data?.image}`}
+              src={`${IMAGE}${profile?.data?.user?.name}`}
               alt=""
               className="rounded-full h-[42px] w-[42px]"
             />
