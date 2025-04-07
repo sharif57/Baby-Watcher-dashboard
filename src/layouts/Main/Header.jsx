@@ -18,7 +18,7 @@ const Header = () => {
   const [userInfo, setUserInfo] = useState({});
   console.log(userInfo?.email);
   const { data: profile } = useUserProfileQuery();
-  console.log(profile?.data?.name, "profile");
+  console.log(profile?.data?.user.image, "profile");
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -83,30 +83,12 @@ const Header = () => {
         <Link to={"/settings/profile"} className="flex items-center">
           <div>
             <img
-              src={`${IMAGE}${profile?.data?.user?.name}`}
+              src={profile?.data?.user.image}
               alt=""
               className="rounded-full h-[42px] w-[42px]"
             />
           </div>
-          {/* <h1> {userInfo?.name}</h1> */}
-          {/* <Select
-            defaultValue="Jane Cooper"
-            className="text-white"
-            style={{
-              width: 120,
-              color: 'white'
-            }}
-            bordered={false}
-            suffixIcon={<MdOutlineKeyboardArrowDown color="white" fontSize={20} />}
-            onChange={handleChange}
-            options={[
-              {
-                value: `${userInfo?.name}`,
-                // label: 'Jane Cooper',
-              },
-             
-            ]}
-          /> */}
+         
         </Link>
       </div>
     </div>

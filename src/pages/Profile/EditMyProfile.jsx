@@ -543,7 +543,7 @@ const EditMyProfile = () => {
                             src={
                               profileData.profile.startsWith('http') 
                                 ? profileData.profile 
-                                : `${IMAGE}${profileData.profile}`
+                                : profileData.profile
                             }
                             alt="Current profile"
                             className="h-28 w-28 rounded-full border-4 border-black object-cover"

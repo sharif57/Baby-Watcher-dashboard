@@ -129,13 +129,16 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, isLoading, isError } = useUserProfileQuery();
-  console.log(data?.data?.user?.name)
+  console.log(data?.data?.user?.name);
 
-  const IMAGE = import.meta.env.VITE_IMAGE_API;
 
   if (isLoading) {
-
-    return <Spin size="large" className="flex justify-center items-center min-h-screen" />;
+    return (
+      <Spin
+        size="large"
+        className="flex justify-center items-center min-h-screen"
+      />
+    );
   }
 
   if (isError) {
@@ -150,7 +153,9 @@ const MyProfile = () => {
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
         </Link>
-        <h1 className="text-xl font-semibold text-gray-800">Personal Information</h1>
+        <h1 className="text-xl font-semibold text-gray-800">
+          Personal Information
+        </h1>
       </div>
       <div className="rounded-lg py-4 border-lightGray ">
         <div>
@@ -174,7 +179,7 @@ const MyProfile = () => {
                   <div className="min-h-[300px] flex flex-col items-center justify-center p-8 rounded-lg bg-white">
                     <div className="my-2">
                       <img
-                        src={`${IMAGE}${data?.data?.user?.image}` || dashProfile}
+                        src={data?.data?.user.image || dashProfile}
                         alt=""
                         className="h-28 w-28 rounded-full border-4 border-black"
                       />
@@ -184,7 +189,11 @@ const MyProfile = () => {
                   </div>
                 </div>
                 <div className="col-span-9 space-y-[14px] w-full">
-                  <Form.Item className="text-lg font-medium text-black -mb-1" label="Name" name="name">
+                  <Form.Item
+                    className="text-lg font-medium text-black -mb-1"
+                    label="Name"
+                    name="name"
+                  >
                     <Input
                       readOnly
                       size="large"
@@ -192,7 +201,11 @@ const MyProfile = () => {
                       prefix={<User className="mr-2 text-gray-400" size={18} />}
                     />
                   </Form.Item>
-                  <Form.Item className="text-lg font-medium text-black" label="Email" name="email">
+                  <Form.Item
+                    className="text-lg font-medium text-black"
+                    label="Email"
+                    name="email"
+                  >
                     <Input
                       readOnly
                       size="large"
@@ -215,7 +228,10 @@ const MyProfile = () => {
                 </Button>
               </div>
             </div>
-            <PasswordChangeModalForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <PasswordChangeModalForm
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+            />
           </div>
         </div>
         <div className="p-[24px] pt-0.5">
@@ -227,4 +243,3 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
-
